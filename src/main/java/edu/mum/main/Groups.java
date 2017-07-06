@@ -14,57 +14,66 @@ public class Groups {
 
 	@Autowired
 	GroupService groupService;
-	
+
 	@Autowired
 	UserCredentialsService userCredentialsService;
-	
- 	public void addGroups() {
-	
- 		// Create ADMIN Group
- 	    Group groupAdmin = new Group();
- 	    groupAdmin.setGroup_name("USER");
 
- 	    // Create SUPERVISOR Group
- 	    Group groupSuper = new Group();
- 	    groupSuper.setGroup_name("SUPERVISOR");
+	public void addGroups() {
 
-	    
- 	    // Add LIST to both groups
- 	    Authority authority = new Authority();
- 	    authority.setAuthority("LIST");
- 	    groupAdmin.getAuthority().add(authority);
- 	    groupSuper.getAuthority().add(authority);
- 	    
-	    //Add READ to both Groups
- 	    authority = new Authority();
-	    authority.setAuthority("READ");
-	    groupAdmin.getAuthority().add(authority);
-	    groupSuper.getAuthority().add(authority);
+		// Create ADMIN Group
+		Authority authority = new Authority();
+		authority.setAuthority("ROLE_ADMIN");
 
- 		
-	    //Add Update to Super only
- 	    authority = new Authority();
-	    authority.setAuthority("UPDATE");
-	    groupSuper.getAuthority().add(authority);
+		Group groupAdmin = new Group();
+		groupAdmin.setGroup_name("USER");
+		groupAdmin.getAuthority().add(authority);
 
- 	   // Add users to groups
-	    UserCredentials userCredentials = new UserCredentials();
-	    userCredentials.setUserName("Sean");
-	    userCredentials.setPassword("Sean");
-	    userCredentials.setEnabled(true);
-	 
-	    groupAdmin.getUserCredentials().add(userCredentials);
-	    
-	    userCredentials = new UserCredentials();
-	    userCredentials.setUserName("Paul");
-	    userCredentials.setPassword("Paul");
-	    userCredentials.setEnabled(true);
-	 
-	    groupSuper.getUserCredentials().add(userCredentials);
-	    
- 	   // Save groups
- 	    groupService.save(groupAdmin);
- 	    groupService.update(groupSuper);
+		// Create SUPERVISOR Group
+		authority = new Authority();
+		authority.setAuthority("ROLE_SUPERVISOR");
+
+		Group groupSuper = new Group();
+		groupSuper.setGroup_name("SUPERVISOR");
+		groupSuper.getAuthority().add(authority);
+
+		// Add LIST to both groups
+//		Authority authority = new Authority();
+		authority = new Authority();
+		authority.setAuthority("LIST");
+		groupAdmin.getAuthority().add(authority);
+		groupSuper.getAuthority().add(authority);
+
+		// Add READ to both Groups
+		authority = new Authority();
+		authority.setAuthority("READ");
+		groupAdmin.getAuthority().add(authority);
+		groupSuper.getAuthority().add(authority);
+
+		// Add Update to Super only
+		authority = new Authority();
+		authority.setAuthority("UPDATE");
+		groupSuper.getAuthority().add(authority);
+
+		// Add users to groups
+		UserCredentials userCredentials = new UserCredentials();
+		userCredentials.setUserName("Sean");
+		userCredentials.setPassword("Sean");
+		userCredentials.setAuthority(groupAdmin.getAuthority());
+		userCredentials.setEnabled(true);
+
+		groupAdmin.getUserCredentials().add(userCredentials);
+
+		userCredentials = new UserCredentials();
+		userCredentials.setUserName("Paul");
+		userCredentials.setPassword("Paul");
+		userCredentials.setAuthority(groupSuper.getAuthority());
+		userCredentials.setEnabled(true);
+
+		groupSuper.getUserCredentials().add(userCredentials);
+
+		// Save groups
+		groupService.save(groupAdmin);
+		groupService.update(groupSuper);
 
 	}
 }

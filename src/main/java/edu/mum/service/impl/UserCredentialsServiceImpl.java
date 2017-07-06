@@ -19,7 +19,7 @@ public class UserCredentialsServiceImpl implements edu.mum.service.UserCredentia
 	private UserCredentialsDao userCredentialsDao;
 
  	
-     public void save( UserCredentials userCredentials) {  		
+    public void save( UserCredentials userCredentials) {  		
   		userCredentialsDao.save(userCredentials);
  	}
   	

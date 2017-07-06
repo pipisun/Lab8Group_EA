@@ -42,6 +42,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import edu.mum.main.ViewManager;
@@ -78,7 +79,9 @@ public class LoginController {
     	
         try {
         	//TODO: add Authentication
-            
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userName, passWord);
+            Authentication authentication = authenticationManager.authenticate(token);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
             // - End of TO DO
             
             

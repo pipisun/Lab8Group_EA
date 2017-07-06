@@ -19,7 +19,8 @@ public class UserServiceImpl implements edu.mum.service.UserService {
  	@Autowired
 	private UserDao userDao;
 
-     public void save( User user) {  		
+ 	@PreAuthorize("hasRole('ROLE_SUPERVISOR')")
+    public void save( User user) {  		
   		userDao.save(user);
  	}
   	
@@ -32,6 +33,7 @@ public class UserServiceImpl implements edu.mum.service.UserService {
 		return userDao.findByEmail(email);
 	}
 	
+ 	@PreAuthorize("hasAuthority('ROLE_SUPERVISOR')")
   	public User update(User user) {
 		 return userDao.update(user);
 

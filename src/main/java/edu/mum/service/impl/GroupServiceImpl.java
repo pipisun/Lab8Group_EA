@@ -3,6 +3,7 @@ package edu.mum.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ public class GroupServiceImpl implements GroupService {
   		groupDao.save(group);
 	}
   	
+//  	@PreAuthorize("hasRole('ROLE_SUPERVISOR')")
   	public void update(Group group) {		
   		groupDao.update(group);
 	}

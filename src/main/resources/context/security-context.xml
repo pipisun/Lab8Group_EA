@@ -9,12 +9,12 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 <!--  Enable Authorization Annotations -->
- 	<security:global-method-security pre-post-annotations="enabled"  >
+ 	<security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"  >
 	</security:global-method-security>
 
  <!-- Database security -->
 	<security:authentication-manager alias="authenticationManager">
-		<security:authentication-provider  user-service-ref="userDetailsServiceImpl">
+		<security:authentication-provider  user-service-ref="jdbcDaoImpl">
 			<security:password-encoder hash="bcrypt" />               
 		</security:authentication-provider>
 	</security:authentication-manager>
@@ -30,6 +30,18 @@
                                 and ga.authority_id = a.id" />
     
 </bean> 
+    <bean id="methodExpressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+        <property name="roleHierarchy" ref="roleHierarchy" />
+    </bean>
 
+
+<bean id="roleHierarchy"
+        class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
+    <property name="hierarchy">
+        <value>
+			ROLE_SUPERVISOR > ROLE_ADMIN
+	   </value>
+    </property>
+</bean>
 
 </beans>
