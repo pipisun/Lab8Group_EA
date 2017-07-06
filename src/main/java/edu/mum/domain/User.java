@@ -17,28 +17,43 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "USERS")
  public class User implements Serializable  {
 
-    @Id @GeneratedValue(strategy=GenerationType.AUTO)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "USER_ID")
     private Long id = null;
 
-
+    @NotEmpty 
+    @Size(min=5, max=19, message="{Size}")
     @Column(name = "FIRSTNAME", nullable = false)
     private String firstName;
 
-
+    @NotEmpty @Size(min=5, max=19, message="{Size}")
     @Column(name = "LASTNAME", nullable = false)
     private String lastName;
 
-
+    @Email(message="{email}")
     @Column(name = "EMAIL", nullable = false)
     private String email;
 
- 
+    @Min(message="{minNumber}", value = 8)
     @Column(name = "RANK", nullable = false)
     private Integer ranking = 0;
 
@@ -49,13 +64,13 @@ import javax.persistence.Table;
 	@JoinColumn(name="userId") 
 	private UserCredentials userCredentials;
 
-    
-	   @OneToMany(fetch=FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.MERGE}, mappedBy="user")
-	     private List<Address> addresses = new ArrayList<Address>();
+    @Valid
+	@OneToMany(fetch=FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.MERGE}, mappedBy="user")
+	private List<Address> addresses = new ArrayList<Address>();
 
 
-	    @OneToMany(fetch=FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-	    private Set<Item> boughtItems = new HashSet<Item>();
+	@OneToMany(fetch=FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+	private Set<Item> boughtItems = new HashSet<Item>();
 
 
 	public Long getId() {

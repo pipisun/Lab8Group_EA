@@ -10,6 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Range;
 
@@ -29,13 +32,13 @@ public class Address implements Serializable {
 
     @Id 
 	@GeneratedValue(strategy=GenerationType.AUTO)
-   private Long id = null;
+    private Long id = null;
 
 
     @Column(length = 255)
 	private String street;
 
- 
+    @Size(min=5, max=9, message="{Range.zipcode}")
     @Column(length = 16)
 	private String zipcode;
 
