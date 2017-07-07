@@ -12,4 +12,5 @@ public interface UserService {
 	public User findByEmail(String email);
 	public User update(User user);
 	public User testRefresh(User user);
+	public Boolean validate(User user, Class<?> group);
 }

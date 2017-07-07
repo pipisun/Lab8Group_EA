@@ -49,11 +49,11 @@ import org.hibernate.validator.constraints.NotEmpty;
     @Column(name = "LASTNAME", nullable = false)
     private String lastName;
 
-    @Email(message="{email}")
+    @Email(message="{email}", groups={Details.class})
     @Column(name = "EMAIL", nullable = false)
     private String email;
 
-    @Min(message="{minNumber}", value = 8)
+    @Min(message="{minNumber}", value = 8, groups={Details.class})
     @Column(name = "RANK", nullable = false)
     private Integer ranking = 0;
 
