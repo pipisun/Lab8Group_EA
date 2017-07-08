@@ -14,18 +14,18 @@ public class ValidationException extends RuntimeException {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	Errors errors;
+	Set<ConstraintViolation<Object>> errors;
 	
     //Parameterless Constructor
     public ValidationException() {}
 
     //Constructor that accepts a message
-    public ValidationException(Errors errors)
+    public ValidationException(Set<ConstraintViolation<Object>> errors2)
     {
-       this.errors = errors;      
+       this.errors = errors2;      
     }
 
-	public Errors getErrors() {
+	public Set<ConstraintViolation<Object>> getErrors() {
 		return errors;
 	}
 

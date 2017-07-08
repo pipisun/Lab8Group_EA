@@ -23,9 +23,13 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import javax.validation.groups.Default;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import edu.mum.validation.EmptyOrSize;
+import edu.mum.validation.NullMinNumber;
 
 @Entity
 @Table(name = "USERS")
@@ -36,16 +40,19 @@ import org.hibernate.validator.constraints.NotEmpty;
 	 */
 	private static final long serialVersionUID = 1L;
 
+	public interface Details extends Default {};
+	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "USER_ID")
     private Long id = null;
 
-    @NotEmpty 
-    @Size(min=5, max=19, message="{Size}")
+//    @NotEmpty 
+//    @Size(min=5, max=19, message="{Size}")
+	@EmptyOrSize(min=5, max=19, message="{EmptyOrSize}")
     @Column(name = "FIRSTNAME", nullable = false)
     private String firstName;
 
-    @NotEmpty @Size(min=5, max=19, message="{Size}")
+	@EmptyOrSize(min=5, max=19, message="{EmptyOrSize}")
     @Column(name = "LASTNAME", nullable = false)
     private String lastName;
 
@@ -53,7 +60,7 @@ import org.hibernate.validator.constraints.NotEmpty;
     @Column(name = "EMAIL", nullable = false)
     private String email;
 
-    @Min(message="{minNumber}", value = 8, groups={Details.class})
+    @NullMinNumber(message="{NullMinNumber}", value = 8, groups={Details.class})
     @Column(name = "RANK", nullable = false)
     private Integer ranking = 0;
 

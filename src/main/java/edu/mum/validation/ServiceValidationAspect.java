@@ -14,8 +14,6 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.Validator;
 
-import edu.mum.exception.ValidationException;
-
 @Aspect
 @Component
 public class ServiceValidationAspect {
@@ -54,7 +52,7 @@ public class ServiceValidationAspect {
         		  
         		  System.out.println(messageAccessor.getMessage(fieldError));
         	  }
-            	throw new ValidationException(errors);
+//            	throw new ValidationException(errors);
         	}
   
         return ;

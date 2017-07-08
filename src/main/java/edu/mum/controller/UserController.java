@@ -34,6 +34,9 @@ package edu.mum.controller;
  
 import java.util.List;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.groups.Default;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
@@ -45,6 +48,7 @@ import org.springframework.validation.FieldError;
 
 import edu.mum.domain.Address;
 import edu.mum.domain.User;
+import edu.mum.domain.User.Details;
 import edu.mum.exception.ValidationException;
 import edu.mum.main.ViewManager;
 import edu.mum.service.UserCredentialsService;
@@ -115,12 +119,15 @@ public class UserController  {
 
      	try {
      		if (idField.getText().isEmpty()) {
-     		 userService.save(user); 
-     		 addUserToList();
+     		 if(userService.validate(user, Default.class)) {	
+     			 userService.save(user); 
+     			 addUserToList();
+     		 }
      		}
      		else {
-     	     	user.setId(new Long(idField.getText()));  	     	 
-     			userService.update(user); 
+     	     	user.setId(new Long(idField.getText())); 
+     	     	if(userService.validate(user, Details.class))
+     	     		userService.update(user); 
 
      		}
      	}
@@ -128,12 +135,11 @@ public class UserController  {
      		actiontarget.setText(e.getMessage() + " - You are not a Supervisor!");
      	}
      	catch (ValidationException e) {
-	     		String text  = " \n";
- 	         	  List<FieldError> fieldErrors =  e.getErrors().getFieldErrors();
-	        	  for (FieldError fieldError : fieldErrors) {
- 		         	text += messageAccessor.getMessage(fieldError) + "\n";
- 		         	actiontarget.setText(text);
-	         	}
+     		String text  = " \n";
+          	for (ConstraintViolation<Object> error : e.getErrors()) {
+         	   text += error.getPropertyPath() + " " +error.getMessage() + "\n";
+         	   actiontarget.setText(text);
+         	}
         } catch (Throwable e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
